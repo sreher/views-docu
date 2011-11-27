@@ -290,7 +290,7 @@ class views_handler_field_field extends views_handler_field {
       'default' => array(),
     );
     $options['group_column'] = array(
-      'default' => $default_column,
+      'default' => in_array('value', $column_names) ? 'value' : $column_names[0],
     );
     $options['group_columns'] = array(
       'default' => array(),
@@ -345,7 +345,11 @@ class views_handler_field_field extends views_handler_field {
     if (count($field['columns']) == 1) {
       $form['click_sort_column'] = array(
         '#type' => 'value',
+<<<<<<< HEAD
+        '#value' => $column_names[0],
+=======
         '#value' => isset($column_names[0]) ? $column_names : '',
+>>>>>>> 7.x-3.x
       );
     }
     else {

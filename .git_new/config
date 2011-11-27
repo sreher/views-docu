@@ -1,0 +1,12 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+[remote "origin"]
+	fetch = +refs/heads/*:refs/remotes/origin/*
+	url = http://git.drupal.org/project/views.git
+[branch "7.x-3.x"]
+	remote = origin
+	merge = refs/heads/7.x-3.x

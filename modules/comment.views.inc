@@ -484,6 +484,7 @@ function comment_views_data() {
     ),
   );
 
+
   // last_comment_uid
   $data['node_comment_statistics']['last_comment_uid'] = array(
     'title' => t('Last comment uid'),
@@ -505,6 +506,7 @@ function comment_views_data() {
       'handler' => 'views_handler_filter_user_name',
     ),
   );
+
 
   return $data;
 }
