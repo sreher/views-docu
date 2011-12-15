@@ -75,4 +75,88 @@ Of particular interest is the <em>path</em> directive, which works a little diff
 
 Please be sure to prefix your plugin identifiers with your module name to ensure namespace safety; after all, two different modules could try to implement the 'grid2' plugin, and that would cause one plugin to completely fail.
 
-...TODO: Finish this document....
+<h3>Plugins Overview</h3>
+Here are an overview about all default plugins to get an idea, what is by default possible. You will find the file in the <b>plugins folder</b> in your views module.
+<table>
+	<tr>
+		<td valign="top">
+			<h4>Access</h4>
+views_plugin_access_none.inc
+views_plugin_access_perm.inc
+views_plugin_access_role.inc
+views_plugin_access.inc
+		</td>
+		<td valign="top">
+			<h4>Arguments</h4>
+views_plugin_argument_default_fixed.inc
+<a href="topic:views/api-plugin-argument-default-php">views_plugin_argument_default_php.inc</a>
+views_plugin_argument_default_raw.inc
+views_plugin_argument_default.inc
+views_plugin_argument_validate_numeric.inc
+views_plugin_argument_validate_php.inc
+views_plugin_argument_validate.inc
+		</td>
+		<td valign="top">
+			<h4>Caches</h4>
+views_plugin_cache_none.inc
+views_plugin_cache_time.inc
+views_plugin_cache.inc
+		</td></tr>
+		<tr><td valign="top">
+			<h4>Displays</h4>
+views_plugin_display_attachment.inc
+views_plugin_display_block.inc
+views_plugin_display_default.inc
+views_plugin_display_extender.inc
+views_plugin_display_feed.inc
+views_plugin_display_page.inc
+views_plugin_display.inc
+		</td>
+		<td valign="top">
+			<h4>Exposed Form</h4>
+views_plugin_exposed_form_basic.inc
+views_plugin_exposed_form_input_required.inc
+views_plugin_exposed_form.inc
+		</td>
+		<td valign="top">
+			<h4>Locations</h4>
+views_plugin_localization_core.inc
+views_plugin_localization_none.inc
+views_plugin_localization.inc
+		</td></tr>
+		</tr><td valign="top">
+			<h4>Pagers</h4>
+views_plugin_pager_full.inc
+views_plugin_pager_mini.inc
+views_plugin_pager_none.inc
+views_plugin_pager_some.inc
+views_plugin_pager.inc
+		</td>
+		<td valign="top">
+			<h4>Querys</h4>
+views_plugin_query_default.inc
+views_plugin_query.inc
+		</td>
+		<td valign="top">
+			<h4>Rows</h4>
+views_plugin_row_fields.inc
+views_plugin_row.inc
+		</td></tr>
+		</tr><td valign="top">
+			<h4>Styles</h4>
+views_plugin_style_default.inc
+views_plugin_style_grid.inc
+views_plugin_style_jump_menu.inc
+views_plugin_style_list.inc
+views_plugin_style_rss.inc
+views_plugin_style_summary_jump_menu.inc
+views_plugin_style_summary_unformatted.inc
+views_plugin_style_summary.inc
+views_plugin_style_table.inc
+views_plugin_style.inc
+		</td>
+	</tr>
+</table>
+
+<h3>The Views API Site</h3>
+The best place to learn more about plugins and how they work is to explore <a target="_blank" href="http://views.doc.logrus.com">the views API site on views.doc.logrus</a> or <a target="_blank" href="http://drupalcontrib.org/api/drupal/contributions--views--views.module/7">the views API site on drupalcontrib</a> and use existing handlers as a guide and a model. Understanding how views_plugins and its child classes work is handy but you can do a lot just following these models. You can also explore the views module directory.
