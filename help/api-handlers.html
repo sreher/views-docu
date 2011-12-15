@@ -1,11 +1,10 @@
-In Views, a handler is an object that is part of the view and is part of the query building flow.
+If you want to manipulate the data, than you have to work with handlers. You can write your own handlers for <b>fields, arguments, relationship, filters and sort criteria</b>. In Views, a handler is an object that is part of the view and is part of the query building flow.
 
-Handlers are objects; much of the time, the base handlers will work, but often you'll need to override the handler for something. One typical handler override will be views_handler_filter_operator_in which allows you to have a filter select from a list of options; you'll need to override this to provide your list.
+When you select "Fields" in the section "Format: How should each row in this view be styled" then you have the option to add Fields in the fields section. For every Field there are a lots of option you can choose. Views offers the possibility to customize all option you can see. When you are in the section "Configure field", there are settings for the little things like 'Create a label' or 'Exclude from display', but also settings under the roof of "SHOW STYLE SETTINGS", "NO RESULTS BEHAVIOR", "REWRITE RESULTS" and "MORE", these settings are created by handlers. See also for the settings <a href="topic:views/field">Fields</a>.
 
-Handlers have two distint code flows; the UI flow and the view building flow.
+The job for the handlers is to display all the settings in the views configuration and control the output for the fields. So if you select a boolean field like 'Promoted to front page', you get a configuration windows, where you can select the common settings like 'Create a label' or 'Exclude from display', which are the same for all fields but also select the "Output format", which is special for the boolean field type.
 
 For the query flow:
-
 <dl>
 <dt>handler-&gt;construct()</dt>
 <dd>Create the initial handler; at this time it is not yet attached to a view. It is here that you can set basic defaults if needed, but there will be no knowledge of the environment yet.</dd>
@@ -26,6 +25,9 @@ Fields, being the only handlers concerned with output, also have an extended pie
 <dt>handler-&gt;render()</dt>
 <dd>This does the actual work of rendering the field.</dd>
 </dl>
+
+<h3>Expand the existing classes</h3>
+Handlers are objects; much of the time, the base handlers will work, but often you'll need to override the handler for something. One typical handler override will be views_handler_filter_operator_in which allows you to have a filter select from a list of options; you'll need to override this to provide your list.
 
 Most handlers are just extensions of existing classes with a few tweaks that are specific to the field in question. For example:
 
@@ -49,8 +51,10 @@ class views_handler_filter_node_type extends views_handler_filter_in_operator {
 
 <i>views_handler_filter_in_operator</i> provides a simple mechanism to set the list used and the rest of the handler is perfectly fine for this.
 
-Handlers are stored in their own files and loaded on demand.
-Like all other module files, they must first be registered through the module's info file. For example:
+<h3>Removed handlers in Drupal7</h3>
+Views now uses Drupal 7's dynamic-loading code registry. Handlers are stored in their own files and loaded on demand. You can safely <i>remove your implementations of hook_views_handlers()</i>, since they are no longer used.
+
+Like all other module files, they must first be registered through the module's .info file. For example:
 <pre>
 name = Example module
 description = "Gives an example of a module."
@@ -61,8 +65,83 @@ files[] = example.install
 ; Views handlers
 files[] = includes/views/handlers/example_handler_argument_string.inc
 </pre>
+With the following line you announce the handler to views: 
+<dd>files[] = includes/views/handlers/example_handler_argument_string.inc</dd>
 
-The best place to learn more about handlers and how they work is to explore <a href="http://views.doc.logrus.com">the views API site</a> and use existing handlers as a guide and a model. Understanding how views_handler and its child classes work is handy but you can do a lot just following these models. You can also explore the views module directory, particularly node.views.inc.
+1. Note that <i>views_handler_filter_float</i> has been removed. This functionality is now handled by views_handler_filter_numeric. There's no need for having a special handler any more, thanks to the new DB layer in Drupal 7.
+
+2. Note that <i>views_handler_sort_formula</i> has been removed. Everyone who used it can extend from views_handler_sort, too.
+
+<h3>Handlers Overview</h3>
+Here are an overview about all default handlers to get an idea, what is by default possible. You will find the file in the <b>handlers folder</b> in your views module.
+<table>
+	<tr>
+		<td valign="top">
+			<h4>Fields</h4>
+			views_handler_field_custom.inc
+			views_handler_field_date.inc
+			views_handler_field_entity.inc
+			views_handler_field_markup.inc
+			views_handler_field_math.inc
+			views_handler_field_numeric.inc
+			views_handler_field_prerender_list.inc
+			views_handler_field_serialized.inc
+			views_handler_field_time_interval.inc
+			views_handler_field_url.inc
+			views_handler_field.inc
+			views_handler_field_boolean.inc
+			views_handler_field_counter.inc
+		</td>
+		<td valign="top">
+			<h4>Filters</h4>
+			views_handler_filter.inc
+			views_handler_filter_date.inc
+			views_handler_filter_boolean_operator.inc
+			views_handler_filter_boolean_operator_string.inc
+			views_handler_filter_string.inc
+			views_handler_filter_numeric.inc
+			views_handler_filter_many_to_one.inc
+			views_handler_filter_in_operator.inc
+			views_handler_filter_equality.inc
+			views_handler_filter_group_by_numeric.inc
+		</td>
+		<td valign="top">
+			<h4>Arguments</h4>
+			views_handler_argument.inc
+			views_handler_argument_date.inc
+			views_handler_argument_numeric.inc
+			views_handler_argument_string.inc
+			views_handler_argument_group_by_numeric.inc
+			views_handler_argument_many_to_one.inc
+			views_handler_argument_formula.inc
+			views_handler_argument_null.inc
+		</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<h4>Sorts</h4>
+			views_handler_sort.inc
+			views_handler_sort_date.inc
+			views_handler_sort_random.inc
+			views_handler_sort_group_by_numeric.inc
+			views_handler_sort_menu_hierarchy.inc
+		</td>
+		<td valign="top">
+			<h4>Areas</h4>
+			views_handler_area.inc
+			views_handler_area_view.inc
+			views_handler_area_text.inc
+		</td>
+		<td valign="top">
+			<h4>Relationships</h4>
+			views_handler_relationship.inc
+			views_handler_relationship_groupwise_max.inc
+		</td>
+	</tr>
+</table>
+
+<h3>The Views API Site</h3>
+The best place to learn more about handlers and how they work is to explore <a target="_blank" href="http://views.doc.logrus.com">the views API site on views.doc.logrus</a> or <a target="_blank" href="http://drupalcontrib.org/api/drupal/contributions--views--views.module/7">the views API site on drupalcontrib</a> and use existing handlers as a guide and a model. Understanding how views_handler and its child classes work is handy but you can do a lot just following these models. You can also explore the views module directory, particularly node.views.inc.
 
 Please note that while all handler names in views are prefixed with views_, you should use your own module's name to prefix your handler names in order to ensure namespace safety. Note that the basic pattern for handler naming goes like this:
 
